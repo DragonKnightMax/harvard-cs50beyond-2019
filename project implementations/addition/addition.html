@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .incorrect {
+                color: red;
+            }
+        </style>
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <title>
+            Addition
+        </title>
+    </head>
+    <body>
+        <div id="addition"></div>
+
+        <script type="text/babel">
+            class Addition extends React.Component { 
+                constructor(props) {
+                    super(props);    
+                    this.state = {
+                        num1: 1,
+                        num2: 1,
+                        response: "",
+                        score: 0,
+                        incorrect: false
+                    };
+                }
+                
+                render() {
+                    if (this.state.score >= 5) {
+                        return this.renderWin();
+                    } else {
+                        return this.renderProblem();
+                    }
+                }
+
+                renderProblem() {
+                    return (
+                        <div>
+                            <h1 className={this.state.incorrect ? "incorrect" : ""}>{this.state.num1} + {this.state.num2}</h1>
+                            <input onKeyPress={this.inputKeyPress} onChange={this.updateResponse} value={this.state.response}></input>
+                            <div>
+                                Score: {this.state.score}
+                            </div>
+                        </div>
+                    );
+                }
+
+                renderWin() {
+                    return (
+                        <h1>
+                            Congratulations, You Win!
+                        </h1>
+                    );
+                }
+               
+                // Update input field value based on user response
+                updateResponse = (event) => {
+                    this.setState({
+                        response: event.target.value
+                    });
+                }
+                
+                // Listen to Enter Key press event
+                inputKeyPress = (event) => {
+                    if (event.key === "Enter") {
+                        const answer = parseInt(this.state.response);
+
+                        if (answer === this.state.num1 + this.state.num2) {
+                            this.setState(state => ({
+                                score: state.score + 1,
+                                num1: Math.ceil(Math.random() * 10),
+                                num2: Math.ceil(Math.random() * 10),
+                                response: "",
+                                incorrect: false
+                            }));
+                        } else {
+                            this.setState({
+                                incorrect: true
+                            });
+                        }
+                    }
+                }
+               
+            }
+
+            ReactDOM.render(<Addition />, document.querySelector("#addition"));
+        </script>
+    </body>
+</html>

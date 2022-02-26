@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+        </style>
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <title>
+            Exchange
+        </title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script type="text/babel">
+            
+            class Exchange extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.currencies = ["MYR", "CAD", "INR", "CNY", "USD", "AUD", "CHF", "EUR", "GBP", "JPY", "NZD"];
+                    this.cached = {};
+                    this.state = {
+                        base: "EUR",
+                        other: "USD",
+                        value: 0,
+                        converted: 0
+                    }
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <div>
+                                <select onChange={this.makeSelection} name="base" value={this.state.base}>
+                                    { this.currencies.map(currency => <option key={currency} value={currency}>{currency}</option>) }
+                                </select>
+                                <input onChange={this.changeValue} value={this.state.value} />
+                            </div>
+                            <div>
+                                <select onChange={this.makeSelection} name="other" value={this.state.other}>
+                                    { this.currencies.map(currency => <option key={currency} value={currency}>{currency}</option>) }
+                                </select>
+                                <input disabled={true} value={this.state.converted ? "..." : this.state.converted} />
+                            </div>
+                        </div>
+                    );
+                }
+
+                makeSelection = (event) => {
+                    this.setState({
+                        [event.target.name]: event.target.value
+                    }, this.recalculate);
+                }
+
+                changeValue = (event) => {
+                    // JS is asynchronous, finish setState() only call recalculate()
+                    this.setState({
+                        value: event.target.value,
+                        converted: null
+                    }, this.recalculate);
+
+                }
+
+                // Updated recalculate due to Free Plan restriction
+                recalculate = () => {
+                    const value = parseFloat(this.state.value);
+                    if (isNaN(value)) {
+                        return;
+                    }
+
+                    // Check cache to reduce API request for same currency exchange rates within a minute
+                    if (this.cached.rates[this.state.base] !== undefined && Date.now() - this.cached[timestamp] < 60 * 1000) {
+                        const base_cached = this.cached.rates[this.state.base];
+                        const other_cached = this.cached.rates[this.state.other];
+                        this.setState({
+                            converted: other_cached / base_cached * value
+                        });
+                    }
+                    
+                    // API Request
+                    fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=ea52bc99b9664f828a15ae714f82c245&base=EUR`)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.cached = {
+                            rates: data.rates,
+                            timestamp: Date.now()
+                        }
+
+                        const base = data.rates[this.state.base];
+                        const other = data.rates[this.state.other];
+                        this.setState({
+                            converted: other / base * value
+                        });
+                    });
+                }
+            }
+
+            class App extends React.Component {
+                render() {
+                    return (
+                        <div>
+                            <Exchange />
+                        </div>
+                    );
+                }
+            }
+
+            ReactDOM.render(<App />, document.querySelector("#app"));
+        </script>
+    </body>
+</html>
