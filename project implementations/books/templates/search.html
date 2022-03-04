@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Books
+{% endblock %}
+
+{% block main %}
+    <h1>Find A Book</h1>
+    <form class="form-group" action="{{ url_for('search') }}" method="post">
+        <input class="mx-1 my-1 form-control" autofocus name="search" placeholder="Author or Title" />
+        <input class="mx-1 my-1 btn btn-primary" type="submit" value="Search" />
+    </form>
+{% endblock %}

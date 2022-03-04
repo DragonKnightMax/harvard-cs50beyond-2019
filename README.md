@@ -34,6 +34,6 @@ Visit [https://cs50.harvard.edu/beyond/2019/](https://cs50.harvard.edu/beyond/20
 ### Assignment
 
 - Quiz
-- Books
+- [Books](project%20implementations/books/)
 - [Todo](project%20implementations/todo/)
 - [Flashcards](project%20implementations/flashcards/)
