@@ -19,7 +19,7 @@ Visit [https://cs50.harvard.edu/beyond/2019/](https://cs50.harvard.edu/beyond/20
 |                    | 7       | ORMs and APIs                      | [slides](lecture%20slides/7-orms_and_apis.pdf), [source code](lecture%20source%20code/7-orms_and_apis/)                                           |                                                   |
 | :white_check_mark: | 8       | React                              | [slides](lecture%20slides/8-react.pdf), [source code](lecture%20source%20code/8-react/)                                                           | [Todo](project%20source%20code/todo/)             |
 | :white_check_mark: | 9       | React, continued                   | [slides](lecture%20slides/9-react_continued.pdf), [source code](lecture%20source%20code/9-react_continued/)                                       | [Flashcards](project%20source%20code/flashcards/) |
-| :white_check_mark: | 10      | Thinking in React                  | [slides](lecture%20slides/10-thinking_in_react.pdf)), [source code](lecture%20source%20code/10-thinking_in_react/)                                |                                                   |
+| :white_check_mark: | 10      | Thinking in React                  | [slides](lecture%20slides/10-thinking_in_react.pdf), [source code](lecture%20source%20code/10-thinking_in_react/)                                |                                                   |
 | :white_check_mark: | 11      | Security and Scalability           | [slides](lecture%20slides/11-security_and_scalability.pdf), [source code](lecture%20source%20code/11-security_and_scalability/)                                |                                                   |
 
 ## Project Implementation
